@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Hashtable;
 
 import fr.bonaparte.suividevosfrais.R;
+import fr.bonaparte.suividevosfrais.activities.others.FraisEtapeActivity;
+import fr.bonaparte.suividevosfrais.activities.others.FraisNuiteeActivity;
+import fr.bonaparte.suividevosfrais.activities.others.FraisRepasActivity;
 import fr.bonaparte.suividevosfrais.activities.others.HfActivity;
 import fr.bonaparte.suividevosfrais.activities.others.HfRecapActivity;
 import fr.bonaparte.suividevosfrais.activities.others.KmActivity;
@@ -31,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         recupSerialize();
         // chargement des méthodes événementielles
         cmdMenu_clic(((ImageButton) findViewById(R.id.cmdKm)), KmActivity.class);
+        cmdMenu_clic(((ImageButton) findViewById(R.id.cmdRepas)), FraisRepasActivity.class);
+        cmdMenu_clic(((ImageButton) findViewById(R.id.cmdNuitee)), FraisNuiteeActivity.class);
+        cmdMenu_clic(((ImageButton) findViewById(R.id.cmdEtape)), FraisEtapeActivity.class);
         cmdMenu_clic(((ImageButton) findViewById(R.id.cmdHf)), HfActivity.class);
         cmdMenu_clic(((ImageButton) findViewById(R.id.cmdHfRecap)), HfRecapActivity.class);
         cmdTransfert_clic();
