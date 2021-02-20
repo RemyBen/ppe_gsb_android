@@ -1,4 +1,4 @@
-package fr.bonaparte.suividevosfrais;
+package fr.bonaparte.suividevosfrais.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Locale;
 
-class FraisHfAdapter extends BaseAdapter {
+import fr.bonaparte.suividevosfrais.R;
+import fr.bonaparte.suividevosfrais.models.FraisHf;
+
+public class FraisHfAdapter extends BaseAdapter {
 
 	private final ArrayList<FraisHf> lesFrais ; // liste des frais du mois
 	private final LayoutInflater inflater ;

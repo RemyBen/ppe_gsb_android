@@ -1,4 +1,4 @@
-package fr.bonaparte.suividevosfrais;
+package fr.bonaparte.suividevosfrais.activities.others;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,12 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+
+import fr.bonaparte.suividevosfrais.R;
+import fr.bonaparte.suividevosfrais.activities.MainActivity;
+import fr.bonaparte.suividevosfrais.adapters.FraisHfAdapter;
+import fr.bonaparte.suividevosfrais.models.FraisHf;
+import fr.bonaparte.suividevosfrais.outils.Global;
 
 public class HfRecapActivity extends AppCompatActivity {
 

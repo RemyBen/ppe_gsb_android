@@ -1,4 +1,4 @@
-package fr.bonaparte.suividevosfrais;
+package fr.bonaparte.suividevosfrais.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,14 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Hashtable;
+
+import fr.bonaparte.suividevosfrais.R;
+import fr.bonaparte.suividevosfrais.activities.others.HfActivity;
+import fr.bonaparte.suividevosfrais.activities.others.HfRecapActivity;
+import fr.bonaparte.suividevosfrais.activities.others.KmActivity;
+import fr.bonaparte.suividevosfrais.models.FraisMois;
+import fr.bonaparte.suividevosfrais.outils.Global;
+import fr.bonaparte.suividevosfrais.outils.Serializer;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package fr.bonaparte.suividevosfrais;
+package fr.bonaparte.suividevosfrais.outils;
 
 import android.content.Context;
 
@@ -14,7 +14,7 @@ import java.io.ObjectOutputStream;
  * @author Emds
  *
  */
-abstract class Serializer {
+public abstract class Serializer {
 
 	/**
 	 * Sérialisation d'un objet

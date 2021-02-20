@@ -1,4 +1,4 @@
-package fr.bonaparte.suividevosfrais;
+package fr.bonaparte.suividevosfrais.activities.others;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import fr.bonaparte.suividevosfrais.R;
+import fr.bonaparte.suividevosfrais.activities.MainActivity;
+import fr.bonaparte.suividevosfrais.models.FraisMois;
+import fr.bonaparte.suividevosfrais.outils.Global;
+import fr.bonaparte.suividevosfrais.outils.Serializer;
 
 public class HfActivity extends AppCompatActivity {
 
@@ -85,7 +91,7 @@ public class HfActivity extends AppCompatActivity {
 			// creation du mois et de l'annee s'ils n'existent pas déjà
 			Global.listFraisMois.put(key, new FraisMois(annee, mois)) ;
 		}
-		Global.listFraisMois.get(key).addFraisHf(montant, motif, jour) ;		
+		Global.listFraisMois.get(key).addFraisHf(montant, motif, jour) ;
 	}
 
 	/**

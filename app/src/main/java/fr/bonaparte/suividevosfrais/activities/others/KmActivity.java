@@ -1,4 +1,4 @@
-package fr.bonaparte.suividevosfrais;
+package fr.bonaparte.suividevosfrais.activities.others;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
+
+import fr.bonaparte.suividevosfrais.R;
+import fr.bonaparte.suividevosfrais.activities.MainActivity;
+import fr.bonaparte.suividevosfrais.models.FraisMois;
+import fr.bonaparte.suividevosfrais.outils.Global;
+import fr.bonaparte.suividevosfrais.outils.Serializer;
 
 public class KmActivity extends AppCompatActivity {
 

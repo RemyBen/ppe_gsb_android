@@ -1,4 +1,4 @@
-package fr.bonaparte.suividevosfrais;
+package fr.bonaparte.suividevosfrais.outils;
 
 import android.content.res.Resources;
 import android.util.Log;
@@ -8,7 +8,9 @@ import android.widget.DatePicker;
 import java.lang.reflect.Field;
 import java.util.Hashtable;
 
-abstract class Global {
+import fr.bonaparte.suividevosfrais.models.FraisMois;
+
+public abstract class Global {
 
     // tableau d'informations mémorisées
     public static Hashtable<Integer, FraisMois> listFraisMois = new Hashtable<>();
