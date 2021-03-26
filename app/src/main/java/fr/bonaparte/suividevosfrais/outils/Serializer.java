@@ -70,6 +70,11 @@ public abstract class Serializer {
 		return null ;		
 	}
 
+	/**
+	 * Récupère le contenu du fichier de données enregistré
+	 * @param context Accès au contexte de l'application
+	 * @return
+	 */
 	public static Object readSerialize(Context context) {
 		try {
 			FileInputStream file = context.openFileInput(Global.filename) ;

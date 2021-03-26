@@ -3,6 +3,7 @@ package fr.bonaparte.suividevosfrais.outils;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -50,31 +51,27 @@ public class HTTP extends AsyncTask<String, String, String> {
             e.printStackTrace();
         }*/
 
+
+        // initialise une collection "Clé, Valeur" qui sera envoyé au script login.php
         HashMap<String, String> loginParams = new HashMap<>();
 
+        // paramètre username de l'EditText
         loginParams.put("username", parametres[0]);
+        // parametre password de l'EditText
         loginParams.put("password", parametres[1]);
-
-        /*hashMap.put("mois", String.valueOf(mois));
-        hashMap.put("annee", String.valueOf(annee));
-        hashMap.put("km", String.valueOf(km));
-        hashMap.put("repas", String.valueOf(repas));
-        hashMap.put("nuitee", String.valueOf(nuitee));
-        hashMap.put("etape", String.valueOf(etape));
-        hashMap.put("jour", String.valueOf(jour));
-        hashMap.put("montant", String.valueOf(montant));
-        hashMap.put("motif", String.valueOf(motif));*/
 
         JSONObject login = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/login.php", "POST", loginParams);
 
         try {
+            // récupère le message de réussite ou non de la connexion (booleen)
             success = login.getInt("succes");
             message = login.getString("message");
 
             if (success == 1){
+                // récupère l'id du visiteur
                 String idVisiteur = login.getString("idVisiteur");
 
-
+                // lis le fichier de données
                 Hashtable hashtable = (Hashtable) Serializer.readSerialize(context);
 
                 /** TODO Mettre une valeur par défaut ? **/
@@ -89,40 +86,52 @@ public class HTTP extends AsyncTask<String, String, String> {
                 String montant = null;
                 String motif = null;*/
 
-                for(Object key : hashtable.keySet()) {
-                    HashMap<String, String> transfertParams = new HashMap<>();
+                try {
+                    for (Object key : hashtable.keySet()) {
 
-                    FraisMois fraisMois = (FraisMois) hashtable.get(key);
+                        // initialise une collection "Clé, Valeur" qui sera envoyé au script transfert.php
+                        HashMap<String, String> transfertParams = new HashMap<>();
 
-                    transfertParams.put("idVisiteur", idVisiteur);
+                        FraisMois fraisMois = (FraisMois) hashtable.get(key);
 
-                    String mois = String.valueOf(fraisMois.getMois());
+                        transfertParams.put("idVisiteur", idVisiteur);
 
-                    String annee = String.valueOf(fraisMois.getAnnee());
-                    transfertParams.put("annee", annee);
+                        //**** le mois dans la base est la concatenation de l'annee et du mois ex: 202002
+                        String mois = String.valueOf(fraisMois.getMois());
+                        if (mois.length() == 1){
+                            mois = "0" + mois;
+                        }
+                        String annee = String.valueOf(fraisMois.getAnnee());
+                        mois = annee + mois;
+                        //****
 
-                    String km = String.valueOf(fraisMois.getKm());
-                    transfertParams.put("km", km);
+                        transfertParams.put("mois", mois);
 
-                    String repas = String.valueOf(fraisMois.getRepas());
-                    transfertParams.put("repas", repas);
+                        String km = String.valueOf(fraisMois.getKm());
+                        transfertParams.put("km", km);
 
-                    String nuitee = String.valueOf(fraisMois.getNuitee());
-                    transfertParams.put("nuitee", nuitee);
+                        String repas = String.valueOf(fraisMois.getRepas());
+                        transfertParams.put("repas", repas);
 
-                    String etape = String.valueOf(fraisMois.getEtape());
-                    transfertParams.put("etape", etape);
+                        String nuitee = String.valueOf(fraisMois.getNuitee());
+                        transfertParams.put("nuitee", nuitee);
 
-                    ArrayList<FraisHf> fraisHfs = fraisMois.getLesFraisHf();
-                    for (int i = 0; i < fraisHfs.size(); i++) {
-                        String jour = String.valueOf(fraisHfs.get(i).getJour());
+                        String etape = String.valueOf(fraisMois.getEtape());
+                        transfertParams.put("etape", etape);
+
+                        ArrayList<FraisHf> fraisHfs = fraisMois.getLesFraisHf();
+                        for (int i = 0; i < fraisHfs.size(); i++) {
+                        /*String jour = String.valueOf(fraisHfs.get(i).getJour());
                         String montant = String.valueOf(fraisHfs.get(i).getMontant());
-                        String motif = String.valueOf(fraisHfs.get(i).getMotif());
+                        String motif = String.valueOf(fraisHfs.get(i).getMotif());*/
+                        }
+
+                        JSONObject transfert = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/transfert.php", "POST", transfertParams);
+
+                        Log.d("TAG", "onPostExecute: " + "idVisiteur " + idVisiteur + " mois " + mois + " annee " + annee + " km " + km + " repas " + repas + " nuitee " + nuitee + " etape " + etape);
                     }
-
-                    JSONObject transfert = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/transfert.php", "POST", transfertParams);
-
-                    Log.d("TAG", "onPostExecute: " + "idVisiteur " + idVisiteur + " mois " + mois + " annee " + annee + " km " + km + " repas " + repas + " nuitee " + nuitee + " etape " + etape);
+                } catch (Exception e){
+                    Toast.makeText(context, "Aucune donnée à transférer", Toast.LENGTH_SHORT).show();
                 }
             }
 
