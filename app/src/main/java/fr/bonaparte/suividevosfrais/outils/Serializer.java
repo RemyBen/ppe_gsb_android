@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Hashtable;
 
 /**
  * Classe qui permet de sérialiser et désérialiser des objets
@@ -67,6 +68,27 @@ public abstract class Serializer {
 			e.printStackTrace();
 		}
 		return null ;		
+	}
+
+	public static Object readSerialize(Context context) {
+		try {
+			FileInputStream file = context.openFileInput(Global.filename) ;
+			ObjectInputStream ois;
+			try {
+				ois = new ObjectInputStream(file);
+				try {
+					Hashtable object = (Hashtable) ois.readObject();
+					return object;
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

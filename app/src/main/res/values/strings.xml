@@ -34,4 +34,11 @@
     <string name="icone_recap_hf">Icone du récapitulatif des frais hors forfait</string>
     <string name="icone_transfert">Icone de la commande de transfert</string>
     <string name="icone_supp_hf">Icône de suppression d\'une ligne de frais</string>
+    <string name="dialog_identifiant">Identifiant</string>
+    <string name="dialog_mot_de_passe">Mot de passe</string>
+    <string name="dialog_connexion">Se connecter</string>
+    <string name="dialog_annuler">Annuler</string>
+    <string name="error">Une erreur s\'est produite</string>
+    <string name="dialog_erreur_champs">Ce champ est requis</string>
+    <string name="chargement">Chargement...</string>
 </resources>

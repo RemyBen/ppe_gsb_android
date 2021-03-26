@@ -28,5 +28,6 @@
         <activity android:name=".activities.others.FraisNuiteeActivity"/>
         <activity android:name=".activities.others.FraisEtapeActivity"/>
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

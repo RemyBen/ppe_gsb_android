@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="layout_marginTop_10sp">10sp</dimen>
+    <dimen name="layout_marginHorizontale_16sp">16sp</dimen>
+    <dimen name="layout_margin_10sp">10sp</dimen>
+</resources>

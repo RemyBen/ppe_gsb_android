@@ -1,7 +1,10 @@
 package fr.bonaparte.suividevosfrais.models;
 
+import org.json.JSONArray;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe métier contenant les informations des frais d'un mois
@@ -99,6 +102,22 @@ public class FraisMois implements Serializable {
 
     public ArrayList<FraisHf> getLesFraisHf() {
         return lesFraisHf;
+    }
+
+    /**
+     * Converti un FraisMois au format JSON
+     * @return un FraisMois converti en JSON
+     */
+    public JSONArray convertToJSONArray(){
+        List uneListe = new ArrayList();
+        uneListe.add(mois);
+        uneListe.add(annee);
+        uneListe.add(etape);
+        uneListe.add(km);
+        uneListe.add(nuitee);
+        uneListe.add(repas);
+        uneListe.add(lesFraisHf);
+        return new JSONArray(uneListe);
     }
 
 }
