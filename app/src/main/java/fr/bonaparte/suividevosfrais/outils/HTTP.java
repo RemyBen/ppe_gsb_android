@@ -60,6 +60,7 @@ public class HTTP extends AsyncTask<String, String, String> {
         // parametre password de l'EditText
         loginParams.put("password", parametres[1]);
 
+        /** TODO Mettre un try catch **/
         JSONObject login = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/login.php", "POST", loginParams);
 
         try {
@@ -92,8 +93,10 @@ public class HTTP extends AsyncTask<String, String, String> {
                         // initialise une collection "Clé, Valeur" qui sera envoyé au script transfert.php
                         HashMap<String, String> transfertParams = new HashMap<>();
 
+                        // récupère les frais du mois à la position "key" de la HashTable
                         FraisMois fraisMois = (FraisMois) hashtable.get(key);
 
+                        // ajoute l'id du visiteur concerné à la collection transfertParams qui sera envoyé au script transfert.php
                         transfertParams.put("idVisiteur", idVisiteur);
 
                         //**** le mois dans la base est la concatenation de l'annee et du mois ex: 202002
@@ -102,33 +105,59 @@ public class HTTP extends AsyncTask<String, String, String> {
                             mois = "0" + mois;
                         }
                         String annee = String.valueOf(fraisMois.getAnnee());
+
+                        // besoin de la date format YYYY-MM-DD pour la lignefraishorforfait
+                        String anneeMois = annee + "-" + mois; // donne un format YYYY-MM
+
+                        // besoin du mois format YYYYMM comme évoqué précédemment pour fichefrais
                         mois = annee + mois;
                         //****
 
+                        // ajoute le mois concerné à la collection transfertParams qui sera envoyé au script transfert.php
                         transfertParams.put("mois", mois);
 
                         String km = String.valueOf(fraisMois.getKm());
+                        // ajoute les frais km à la collection transfertParams qui sera envoyé au script transfert.php
                         transfertParams.put("km", km);
 
                         String repas = String.valueOf(fraisMois.getRepas());
+                        // ajoute les frais repas à la collection transfertParams qui sera envoyé au script transfert.php
                         transfertParams.put("repas", repas);
 
                         String nuitee = String.valueOf(fraisMois.getNuitee());
+                        // ajoute les frais de nuitée à la collection transfertParams qui sera envoyé au script transfert.php
                         transfertParams.put("nuitee", nuitee);
 
                         String etape = String.valueOf(fraisMois.getEtape());
+                        // ajoute les frais d'étape à la collection transfertParams qui sera envoyé au script transfert.php
                         transfertParams.put("etape", etape);
 
+                        // récupère les frais hors forfait d'un fraisMois
                         ArrayList<FraisHf> fraisHfs = fraisMois.getLesFraisHf();
-                        for (int i = 0; i < fraisHfs.size(); i++) {
-                        /*String jour = String.valueOf(fraisHfs.get(i).getJour());
-                        String montant = String.valueOf(fraisHfs.get(i).getMontant());
-                        String motif = String.valueOf(fraisHfs.get(i).getMotif());*/
-                        }
 
+                        /*for (int i = 0; i < fraisHfs.size(); i++) {
+                            String jour = String.valueOf(fraisHfs.get(i).getJour());
+                            // besoin de la date format YYYY-MM-DD pour la lignefraishorforfait
+                            String date = anneeMois + "-" + jour;
+                            // ajoute la date concerné à la collection transfertParams qui sera envoyé au script transfert.php
+                            transfertParams.put("date", date);
+
+                            String montant = String.valueOf(fraisHfs.get(i).getMontant());
+                            // ajoute le montant à la collection transfertParams qui sera envoyé au script transfert.php
+                            transfertParams.put("montant", montant);
+
+                            String motif = String.valueOf(fraisHfs.get(i).getMotif());
+                            // ajoute le motif à la collection transfertParams qui sera envoyé au script transfert.php
+                            transfertParams.put("motif", motif);
+
+                            Log.d("TAG", "doInBackground: " + date);
+
+                            JSONObject transfert = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/transfert.php", "POST", transfertParams);
+                        }*/
+
+                        Log.d("TAG", "" + mois);
+                        Log.d("TAG", "onPostExecute: " + "idVisiteur " + idVisiteur + " mois " + mois + " km " + km + " repas " + repas + " nuitee " + nuitee + " etape " + etape);
                         JSONObject transfert = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/transfert.php", "POST", transfertParams);
-
-                        Log.d("TAG", "onPostExecute: " + "idVisiteur " + idVisiteur + " mois " + mois + " annee " + annee + " km " + km + " repas " + repas + " nuitee " + nuitee + " etape " + etape);
                     }
                 } catch (Exception e){
                     Toast.makeText(context, "Aucune donnée à transférer", Toast.LENGTH_SHORT).show();
@@ -148,7 +177,7 @@ public class HTTP extends AsyncTask<String, String, String> {
 
         chargement.dismiss();
 
-        if (success == 1){
+        if (success == 1) {
             AlertDialog.Builder alert = new AlertDialog.Builder(context);
             alert.setMessage(message);
             alert.setNeutralButton("ok", null);
