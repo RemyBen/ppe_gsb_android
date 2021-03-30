@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
 import java.util.Locale;
 
 import fr.bonaparte.suividevosfrais.R;
@@ -69,6 +70,22 @@ public class FraisRepasActivity extends AppCompatActivity {
 	private void valoriseProprietes() {
 		annee = ((DatePicker)findViewById(R.id.dateRepas)).getYear() ;
 		mois = ((DatePicker)findViewById(R.id.dateRepas)).getMonth() + 1 ;
+
+		// récupère le mois et l'année actuelle
+		Calendar calendar = Calendar.getInstance();
+		int currentMonth = calendar.get(Calendar.MONTH);
+		int currentYear = calendar.get(Calendar.YEAR);
+
+		// désactive les boutons pour les mois différents du mois actuel
+		if (mois == currentMonth+1 && annee == currentYear){
+			findViewById(R.id.cmdRepasPlus).setEnabled(true);
+			findViewById(R.id.cmdRepasMoins).setEnabled(true);
+			findViewById(R.id.cmdRepasValider).setEnabled(true);
+		} else {
+			findViewById(R.id.cmdRepasPlus).setEnabled(false);
+			findViewById(R.id.cmdRepasMoins).setEnabled(false);
+			findViewById(R.id.cmdRepasValider).setEnabled(false);
+		}
 		// récupération de la qte correspondant au mois actuel
 		qte = 0 ;
 		Integer key = annee*100+mois ;

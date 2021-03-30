@@ -135,25 +135,31 @@ public class HTTP extends AsyncTask<String, String, String> {
                         // récupère les frais hors forfait d'un fraisMois
                         ArrayList<FraisHf> fraisHfs = fraisMois.getLesFraisHf();
 
-                        /*for (int i = 0; i < fraisHfs.size(); i++) {
+                        for (int i = 0; i < fraisHfs.size(); i++) {
+
+                            // initialise une collection "Clé, Valeur" qui sera envoyé au script transfertHorsForfait.php
+                            HashMap<String, String> transfertParamsHorsForfait = new HashMap<>();
+                            transfertParamsHorsForfait.put("idVisiteur", idVisiteur);
+                            transfertParamsHorsForfait.put("mois", mois);
+
                             String jour = String.valueOf(fraisHfs.get(i).getJour());
                             // besoin de la date format YYYY-MM-DD pour la lignefraishorforfait
                             String date = anneeMois + "-" + jour;
                             // ajoute la date concerné à la collection transfertParams qui sera envoyé au script transfert.php
-                            transfertParams.put("date", date);
+                            transfertParamsHorsForfait.put("date", date);
 
                             String montant = String.valueOf(fraisHfs.get(i).getMontant());
                             // ajoute le montant à la collection transfertParams qui sera envoyé au script transfert.php
-                            transfertParams.put("montant", montant);
+                            transfertParamsHorsForfait.put("montant", montant);
 
                             String motif = String.valueOf(fraisHfs.get(i).getMotif());
                             // ajoute le motif à la collection transfertParams qui sera envoyé au script transfert.php
-                            transfertParams.put("motif", motif);
+                            transfertParamsHorsForfait.put("motif", motif);
 
-                            Log.d("TAG", "doInBackground: " + date);
+                            Log.d("TAG", "doInBackground: " + date + " " + mois);
+                            JSONObject transfert = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/transfertHorsForfait.php", "POST", transfertParamsHorsForfait);
 
-                            JSONObject transfert = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/transfert.php", "POST", transfertParams);
-                        }*/
+                        }
 
                         Log.d("TAG", "" + mois);
                         Log.d("TAG", "onPostExecute: " + "idVisiteur " + idVisiteur + " mois " + mois + " km " + km + " repas " + repas + " nuitee " + nuitee + " etape " + etape);

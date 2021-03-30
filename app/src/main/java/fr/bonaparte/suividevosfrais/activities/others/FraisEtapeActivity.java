@@ -11,9 +11,11 @@ import android.widget.DatePicker;
 import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
 import java.util.Locale;
 
 import fr.bonaparte.suividevosfrais.R;
@@ -28,7 +30,9 @@ public class FraisEtapeActivity extends AppCompatActivity {
 	private Integer annee ;
 	private Integer mois ;
 	private Integer qte ;
-	
+
+	private DatePicker uneDate;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,6 +40,7 @@ public class FraisEtapeActivity extends AppCompatActivity {
         setTitle("GSB : Frais d'étapes");
 		// modification de l'affichage du DatePicker
 		Global.changeAfficheDate((DatePicker) findViewById(R.id.dateEtape), false) ;
+		uneDate = (DatePicker) findViewById(R.id.dateEtape);
 		// valorisation des propriétés
 		valoriseProprietes() ;
         // chargement des méthodes événementielles
@@ -69,6 +74,23 @@ public class FraisEtapeActivity extends AppCompatActivity {
 	private void valoriseProprietes() {
 		annee = ((DatePicker)findViewById(R.id.dateEtape)).getYear() ;
 		mois = ((DatePicker)findViewById(R.id.dateEtape)).getMonth() + 1 ;
+
+		// récupère le mois et l'année actuelle
+		Calendar calendar = Calendar.getInstance();
+		int currentMonth = calendar.get(Calendar.MONTH);
+		int currentYear = calendar.get(Calendar.YEAR);
+
+		// désactive les boutons pour les mois différents du mois actuel
+		if (mois == currentMonth+1 && annee == currentYear){
+			findViewById(R.id.cmdEtapePlus).setEnabled(true);
+			findViewById(R.id.cmdEtapeMoins).setEnabled(true);
+			findViewById(R.id.cmdEtapeValider).setEnabled(true);
+		} else {
+			findViewById(R.id.cmdEtapePlus).setEnabled(false);
+			findViewById(R.id.cmdEtapeMoins).setEnabled(false);
+			findViewById(R.id.cmdEtapeValider).setEnabled(false);
+		}
+
 		// récupération de la qte correspondant au mois actuel
 		qte = 0 ;
 		Integer key = annee*100+mois ;
@@ -128,8 +150,7 @@ public class FraisEtapeActivity extends AppCompatActivity {
     /**
      * Sur le changement de date : mise à jour de l'affichage de la qte
      */
-    private void dat_clic() {   	
-    	final DatePicker uneDate = (DatePicker) findViewById(R.id.dateEtape);
+    private void dat_clic() {
     	uneDate.init(uneDate.getYear(), uneDate.getMonth(), uneDate.getDayOfMonth(), new OnDateChangedListener(){
 			@Override
 			public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {

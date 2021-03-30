@@ -21,6 +21,9 @@ import fr.bonaparte.suividevosfrais.outils.Serializer;
 
 public class HfActivity extends AppCompatActivity {
 
+
+	private DatePicker uneDate;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -30,6 +33,17 @@ public class HfActivity extends AppCompatActivity {
         Global.changeAfficheDate((DatePicker) findViewById(R.id.datHf), true) ;
 		// mise à 0 du montant
 		((EditText)findViewById(R.id.txtHf)).setText("0") ;
+
+		uneDate = findViewById(R.id.datHf);
+		uneDate.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
+			@Override
+			public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+				findViewById(R.id.txtHf).setEnabled(false);
+				findViewById(R.id.txtHfMotif).setEnabled(false);
+				findViewById(R.id.cmdHfAjouter).setEnabled(false);
+			}
+		});
+
         // chargement des méthodes événementielles
 		imgReturn_clic() ;
 		cmdAjouter_clic() ;
