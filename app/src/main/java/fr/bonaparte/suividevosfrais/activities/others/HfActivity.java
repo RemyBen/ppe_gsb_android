@@ -10,8 +10,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Calendar;
 
 import fr.bonaparte.suividevosfrais.R;
 import fr.bonaparte.suividevosfrais.activities.MainActivity;
@@ -34,19 +37,42 @@ public class HfActivity extends AppCompatActivity {
 		// mise à 0 du montant
 		((EditText)findViewById(R.id.txtHf)).setText("0") ;
 
+		// active les boutons que pour l'annee précédente
+		disableButton();
+
+		// chargement des méthodes événementielles
+		imgReturn_clic() ;
+		cmdAjouter_clic() ;
+	}
+
+	private void disableButton() {
+
+		// récupère le mois et l'année actuelle
+		Calendar calendar = Calendar.getInstance();
+		int currentMonth = calendar.get(Calendar.MONTH) +1;
+		int currentYear = calendar.get(Calendar.YEAR);
+
 		uneDate = findViewById(R.id.datHf);
 		uneDate.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
 			@Override
 			public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-				findViewById(R.id.txtHf).setEnabled(false);
-				findViewById(R.id.txtHfMotif).setEnabled(false);
-				findViewById(R.id.cmdHfAjouter).setEnabled(false);
+
+				Integer annee = ((DatePicker)findViewById(R.id.datHf)).getYear() ;
+				Integer mois = ((DatePicker)findViewById(R.id.datHf)).getMonth() + 1 ;
+
+				// Active la modification d'un frais hors forfait que si la date séelectionné est comprise entre le moins actuel et 1 an et 1 mois en arriere.
+				// Soit les frais saisis peuvent remonter jusqu’à un an en arrière
+				if ((annee == currentYear && mois <= currentMonth) || (annee == currentYear-1 && mois >= currentMonth -1)) {
+					findViewById(R.id.txtHf).setEnabled(true);
+					findViewById(R.id.txtHfMotif).setEnabled(true);
+					findViewById(R.id.cmdHfAjouter).setEnabled(true);
+				} else {
+					findViewById(R.id.txtHf).setEnabled(false);
+					findViewById(R.id.txtHfMotif).setEnabled(false);
+					findViewById(R.id.cmdHfAjouter).setEnabled(false);
+				}
 			}
 		});
-
-        // chargement des méthodes événementielles
-		imgReturn_clic() ;
-		cmdAjouter_clic() ;
 	}
 
 	@Override

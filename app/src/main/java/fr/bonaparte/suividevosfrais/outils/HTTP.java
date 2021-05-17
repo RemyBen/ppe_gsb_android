@@ -36,6 +36,7 @@ public class HTTP extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
 
+        // crée un dialog
         builder = new AlertDialog.Builder(context);
         builder.setCancelable(true);
         builder.setView(R.layout.dialog_chargement);
@@ -45,12 +46,6 @@ public class HTTP extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... parametres) {
-        /*try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-
 
         // initialise une collection "Clé, Valeur" qui sera envoyé au script login.php
         HashMap<String, String> loginParams = new HashMap<>();
@@ -60,7 +55,7 @@ public class HTTP extends AsyncTask<String, String, String> {
         // parametre password de l'EditText
         loginParams.put("password", parametres[1]);
 
-        /** TODO Mettre un try catch **/
+        // se connecter
         JSONObject login = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/login.php", "POST", loginParams);
 
         try {
@@ -74,18 +69,6 @@ public class HTTP extends AsyncTask<String, String, String> {
 
                 // lis le fichier de données
                 Hashtable hashtable = (Hashtable) Serializer.readSerialize(context);
-
-                /** TODO Mettre une valeur par défaut ? **/
-                /*String mois = null;
-                String annee = null;
-                String km = null;
-                String repas = null;
-                String nuitee = null;
-                String etape = null;
-                //ArrayList<FraisHf> fraisHfs;
-                String jour = null;
-                String montant = null;
-                String motif = null;*/
 
                 try {
                     for (Object key : hashtable.keySet()) {
@@ -135,6 +118,11 @@ public class HTTP extends AsyncTask<String, String, String> {
                         // récupère les frais hors forfait d'un fraisMois
                         ArrayList<FraisHf> fraisHfs = fraisMois.getLesFraisHf();
 
+                        Log.d("TAG", "Frais forfait : " + "idVisiteur " + idVisiteur + " mois " + mois + " km " + km + " repas " + repas + " nuitee " + nuitee + " etape " + etape);
+
+                        // transfert les frais forfaits
+                        JSONObject transfert = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/transfert.php", "POST", transfertParams);
+
                         for (int i = 0; i < fraisHfs.size(); i++) {
 
                             // initialise une collection "Clé, Valeur" qui sera envoyé au script transfertHorsForfait.php
@@ -156,16 +144,15 @@ public class HTTP extends AsyncTask<String, String, String> {
                             // ajoute le motif à la collection transfertParams qui sera envoyé au script transfert.php
                             transfertParamsHorsForfait.put("motif", motif);
 
-                            Log.d("TAG", "doInBackground: " + date + " " + mois);
-                            JSONObject transfert = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/transfertHorsForfait.php", "POST", transfertParamsHorsForfait);
+                            Log.d("TAG", "Frais Hors forfais : " + date + " " + mois);
+
+                            // transfert les frais hors forfait
+                            JSONObject transfert2 = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/transfertHorsForfait.php", "POST", transfertParamsHorsForfait);
 
                         }
-
-                        Log.d("TAG", "" + mois);
-                        Log.d("TAG", "onPostExecute: " + "idVisiteur " + idVisiteur + " mois " + mois + " km " + km + " repas " + repas + " nuitee " + nuitee + " etape " + etape);
-                        JSONObject transfert = jsonParser.makeHttpRequest("http://10.0.2.2/GSB_app/transfert.php", "POST", transfertParams);
                     }
                 } catch (Exception e){
+                    // affiche le message
                     Toast.makeText(context, "Aucune donnée à transférer", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -183,6 +170,7 @@ public class HTTP extends AsyncTask<String, String, String> {
 
         chargement.dismiss();
 
+        // si la connexion a réussi ou non, l'affiche dans un dialog
         if (success == 1) {
             AlertDialog.Builder alert = new AlertDialog.Builder(context);
             alert.setMessage(message);

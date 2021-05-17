@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -112,13 +113,14 @@ public class KmActivity extends AppCompatActivity {
     private void cmdValider_clic() {
     	findViewById(R.id.cmdKmValider).setOnClickListener(new Button.OnClickListener() {
     		public void onClick(View v) {
-    			Serializer.serialize(Global.listFraisMois, KmActivity.this) ;
-    			retourActivityPrincipale() ;    		
+    			Serializer.serialize(Global.listFraisMois, KmActivity.this);
+
+    			retourActivityPrincipale() ;
     		}
     	}) ;    	
     }
-    
-    /**
+
+	/**
      * Sur le clic du bouton plus : ajout de 10 dans la quantité
      */
     private void cmdPlus_clic() {
@@ -176,5 +178,12 @@ public class KmActivity extends AppCompatActivity {
 	private void retourActivityPrincipale() {
 		Intent intent = new Intent(KmActivity.this, MainActivity.class) ;
 		startActivity(intent) ;   					
+	}
+
+
+	/**
+	 * Cloture les frais du mois précédent
+	 */
+	private void clotureFraisMoisPrécédent() {
 	}
 }
